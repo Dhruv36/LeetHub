@@ -104,8 +104,8 @@ const gfgLoader = setInterval(() => {
   let difficulty = null;
 
   if (
-    window.location.href.includes(
-      'practice.geeksforgeeks.org/problems',
+    /(practice|www)\.geeksforgeeks\.org\/problems/.test(
+      window.location.href,
     )
   ) {
     let submitBtn = document.getElementById('run');

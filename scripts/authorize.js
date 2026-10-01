@@ -26,8 +26,9 @@ const localAuth = {
    */
   parseAccessCode(url) {
     if (url.match(/\?error=(.+)/)) {
-      chrome.tabs.getCurrent(function (tab) {
-        chrome.tabs.remove(tab.id, function () {});
+      chrome.runtime.sendMessage({
+        closeWebPage: true,
+        isSuccess: false,
       });
     } else {
       // eslint-disable-next-line
@@ -76,6 +77,7 @@ const localAuth = {
     // To validate user, load user object from GitHub.
     const AUTHENTICATION_URL = 'https://api.github.com/user';
 
+    const that = this;
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', function () {
       if (xhr.readyState === 4) {
@@ -86,7 +88,12 @@ const localAuth = {
             isSuccess: true,
             token,
             username,
-            KEY: this.KEY,
+            KEY: that.KEY,
+          });
+        } else {
+          chrome.runtime.sendMessage({
+            closeWebPage: true,
+            isSuccess: false,
           });
         }
       }

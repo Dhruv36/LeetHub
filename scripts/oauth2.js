@@ -21,7 +21,7 @@ const oAuth2 = {
   begin() {
     this.init(); // secure token params.
 
-    let url = `${this.AUTHORIZATION_URL}?client_id=${this.CLIENT_ID}&redirect_uri${this.REDIRECT_URL}&scope=`;
+    let url = `${this.AUTHORIZATION_URL}?client_id=${this.CLIENT_ID}&scope=`;
 
     for (let i = 0; i < this.SCOPES.length; i += 1) {
       url += this.SCOPES[i];
@@ -31,10 +31,7 @@ const oAuth2 = {
       // opening pipe temporarily
 
       chrome.tabs.create({ url, active: true }, function () {
-        window.close();
-        chrome.tabs.getCurrent(function (tab) {
-          chrome.tabs.remove(tab.id, function () {});
-        });
+        window.close(); // close the popup
       });
     });
   },
